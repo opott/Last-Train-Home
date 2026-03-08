@@ -1,33 +1,72 @@
-﻿# The script of the game goes in this file.
+﻿define a = Character("Announcer", voice_tag="announcer")
+define s = Character("Stranger", voice_tag="stranger", color="#268DFF")
+define y = Character("You", voice_tag="you", color="#51e019ff")
 
-# Declare characters used by this game. The color argument colorizes the
-# name of the character.
+screen stop_scr():
+    key "dismiss" action [[]]
 
-define e = Character("Eileen")
+image platform:
+    "images/Night Platform BMO.png"
 
+image platform_arriving:
+    "images/Night Platform BMO - Train.png"
 
-# The game starts here.
+image platform_standing:
+    "images/Night Platform BMO - Standing.png"
+
+image stranger_serious:
+    "images/Stranger - Serious.png"
+    zoom 0.4
 
 label start:
+    scene platform
 
-    # Show a background. This uses a placeholder by default, but you can
-    # add a file (named either "bg room.png" or "bg room.jpg") to the
-    # images directory to show it.
+    play music "audio/night.opus" volume 0.1 loop
+    
+    "The time is 00:12."
 
-    scene bg room
+    "You are standing at Birmingham Moor Street station waiting to catch the last train home."
+    
+    "Looks like your train is about to arrive"
 
-    # This shows a character sprite. A placeholder is used, but you can
-    # replace it by adding a file named "eileen happy.png" to the images
-    # directory.
+    play sound "audio/arriving_bmo.opus" volume 0.6
 
-    show eileen happy
+    scene platform_arriving
 
-    # These display lines of dialogue.
+    $ renpy.pause(3.0, hard=True)
 
-    e "You've created a new Ren'Py game."
+    voice "audio/bmo_approaching_ann.mp3"
+    a "\"The train now approaching platform 1 is the 00:13 service to Stratford-upon-Avon.\""
 
-    e "Once you add a story, pictures, and music, you can release it to the world!"
+    # $ renpy.pause(3.0, hard=True)
 
-    # This ends the game.
+    jump train_standing
 
-    return
+label train_standing:
+    scene platform_standing
+
+    show stranger_serious
+
+    s "\"I wouldn't get on that train if I were you...\""
+
+    y "\"Why?\""
+
+    s "\"Because that train doesn't go where you think it does.\""
+
+    y "\"But it's going to Stratford!?\""
+
+    s "\"That's where you think its going...\""
+
+    a "\"This is the final call for the service to Stratford-upon-Avon on platform 1\""
+
+    menu:
+        "Ask the stranger what they mean":
+            jump ask_stranger
+        "Ignore them and board the train":
+            jump board_train
+
+label ask_stranger:
+    "..."
+
+label board_train:
+    "..."
