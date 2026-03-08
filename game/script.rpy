@@ -2,8 +2,11 @@
 define s = Character("Stranger", voice_tag="stranger", color="#268DFF")
 define y = Character("You", voice_tag="you", color="#51e019ff")
 
-screen stop_scr():
-    key "dismiss" action [[]]
+transform leftseat:
+    xalign 0.30 yalign 0.22 zoom 0.80
+
+transform rightseat:
+    xalign 0.66 yalign 0.22 zoom 0.80
 
 image platform:
     "images/Night Platform BMO.png"
@@ -14,8 +17,15 @@ image platform_arriving:
 image platform_standing:
     "images/Night Platform BMO - Standing.png"
 
+image train_carriage:
+    "images/Train Carriage.png"
+
 image stranger_serious:
     "images/Stranger - Serious.png"
+    zoom 0.4
+
+image you_serious:
+    "images/You - Serious.png"
     zoom 0.4
 
 label start:
@@ -26,10 +36,10 @@ label start:
     "The time is 00:12."
 
     "You are standing at Birmingham Moor Street station waiting to catch the last train home."
-    
-    "Looks like your train is about to arrive"
 
     play sound "audio/arriving_bmo.opus" volume 0.6
+
+    "Sounds like your train is about to arrive!"
 
     scene platform_arriving
 
@@ -38,11 +48,11 @@ label start:
     voice "audio/bmo_approaching_ann.mp3"
     a "\"The train now approaching platform 1 is the 00:13 service to Stratford-upon-Avon.\""
 
-    # $ renpy.pause(3.0, hard=True)
-
     jump train_standing
 
 label train_standing:
+    stop sound
+
     scene platform_standing
 
     show stranger_serious
@@ -66,7 +76,53 @@ label train_standing:
             jump board_train
 
 label ask_stranger:
-    "..."
+    y "\"What do you mean it doesn't go there?\""
+
+    s "\"People get on that train every night...\""
+    s "\"But nobody remembers getting off...\""
+
+    y "laughing nervously"
+
+    a "\"Any passengers wishing to travel on the 00:13 service, please board the train now!\""
+
+    menu:
+        "Board the train anyway":
+            jump board_train
+        "Stay on the platform":
+            jump stay_on_platform
 
 label board_train:
+    stop music
+    
+    scene train_carriage
+
+    play music "audio/engine.mp3" volume 0.5
+
+    show stranger_serious at leftseat
+
+    "You step onto the train..."
+
+    "You sit opposite the stranger..."
+    
+    show you_serious at rightseat
+
+    y "\"So you got on after all that?\""
+
+    s "\"I had to.\""
+
+    voice "audio/next_station_.mp3"
+    a "\"The next station is...\""
+
+    play sound "audio/static.opus" volume 2.0 loop
+
     "..."
+
+    s "\"Oh no...\""
+
+    y "\"WHAT!?\""
+
+    menu:
+        "Look out of the window":
+            jump window_ending
+        "Ask the stranger what's going on":
+            jump truth_ending
