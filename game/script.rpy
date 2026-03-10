@@ -81,7 +81,7 @@ label ask_stranger:
     s "\"People get on that train every night...\""
     s "\"But nobody remembers getting off...\""
 
-    y "laughing nervously"
+    y "*laughing nervously*"
 
     a "\"Any passengers wishing to travel on the 00:13 service, please board the train now!\""
 
@@ -126,3 +126,66 @@ label board_train:
             jump window_ending
         "Ask the stranger what's going on":
             jump truth_ending
+
+label window_ending:
+    scene black
+    
+    stop sound
+
+    "You look out of the window"
+
+    "The train isn't passing through the countryside."
+
+    "It's still inside a tunnel."
+
+    "And it isn't slowing down."
+
+    "You realise the stranger was right all along."
+
+    "The End..."
+
+    return
+
+label truth_ending:
+
+    y "\"You knew this would happen!?\""
+
+    s "\"Yes.\""
+
+    y "\"So why did you get on!?\""
+
+    s "\"Because someone has to warn the next passenger.\""
+
+    "The stranger stands up"
+
+    "The train slows."
+
+    hide stranger_serious
+
+    "You're now alone in the carriage."
+
+    stop sound
+
+    voice "audio/approach_bmo_ann.wav"
+    a "\"We are now approaching Birmingham Moor Street.\""
+
+    "The End..."
+
+    return
+
+label stay_on_platform:
+    "The train doors close."
+
+    "You watch as the train disappears into the night."
+
+    scene platform
+
+    "*phone vibrating*"
+
+    "News Alert: Train disappears between stations..."
+
+    "You walk home instead."
+
+    "The End..."
+
+    return
